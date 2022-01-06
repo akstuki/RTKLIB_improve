@@ -297,6 +297,9 @@ static int rescode(int iter, const obsd_t *obs, int n, const double *rs,
                 continue;
             }
         }
+        else {
+           dion = 0; dtrp = 0; vion = 0; vtrp = 0;
+        }
         /* psendorange with code bias correction */
         if ((P=prange(obs+i,nav,opt,&vmeas))==0.0) continue;
         
