@@ -3279,7 +3279,7 @@ extern int expath(const char *path, char *paths[], int nmax)
     
     trace(3,"expath  : path=%s nmax=%d\n",path,nmax);
     
-    if ((p=strrchr(path,'\\'))) {
+    if ((p=strrchr(path,'/'))||(p=strrchr(path,'\\'))) {
         strncpy(dir,path,p-path+1); dir[p-path+1]='\0';
     }
     if ((h=FindFirstFile((LPCTSTR)path,&file))==INVALID_HANDLE_VALUE) {

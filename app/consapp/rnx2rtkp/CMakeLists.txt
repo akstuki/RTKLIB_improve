@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21.1)
+cmake_minimum_required(VERSION 3.16.3)
 
 project(rnx2rtkp)
 
@@ -38,15 +38,18 @@ if(WIN32)
 endif()
 
 target_compile_definitions(${TARGET_NAME} PRIVATE TRACE ENAGLO ENAQZS ENAGAL ENACMP ENAIRN NFREQ=5)
-target_compile_options(${TARGET_NAME} PRIVATE -Wall -O3 -ansi -pedantic -g)
-# target_compile_options(${TARGET_NAME} PRIVATE -Wall -O3 -ansi -pedantic -Wno-unused-but-set-variable -g)
 
-# set (INPUT11 ${CMAKE_CURRENT_SOURCE_DIR}/../../../test/data/rinex/07590920.05o " " ${CMAKE_CURRENT_SOURCE_DIR}/../../../test/data/rinex/30400920.05n)
-set (INPUT11 ${CMAKE_CURRENT_SOURCE_DIR}\\..\\..\\..\\test\\data\\rinex\\07590920.05o " " ${CMAKE_CURRENT_SOURCE_DIR}\\..\\..\\..\\test\\data\\rinex\\30400920.05n)
+if(WIN32)
+   target_compile_options(${TARGET_NAME} PRIVATE -Wall -O3 -ansi -pedantic -g)
+else()
+   target_compile_options(${TARGET_NAME} PRIVATE -Wall -O3 -ansi -pedantic -Wno-unused-but-set-variable -g)
+endif()
 
-set (INPUT12 ${CMAKE_CURRENT_SOURCE_DIR}\\..\\..\\..\\test\\data\\rinex\\30400920.05o)
+set (INPUT11 ${CMAKE_CURRENT_SOURCE_DIR}/../../../test/data/rinex/07590920.05o " " ${CMAKE_CURRENT_SOURCE_DIR}/../../../test/data/rinex/30400920.05n)
+
+set (INPUT12 ${CMAKE_CURRENT_SOURCE_DIR}/../../../test/data/rinex/30400920.05o)
 set (OPTS1 -r -3978241.958 3382840.234 3649900.853)
-set (CONF_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}\\conf\\)
+set (CONF_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/conf)
 
 enable_testing()
 add_test(NAME test1 COMMAND ${TARGET_NAME} ${INPUT11} -x 5 -o test1.pos)
@@ -70,7 +73,7 @@ add_test(NAME test18  COMMAND ${TARGET_NAME} -t -c -e ${OPTS1} ${INPUT11} ${INPU
 add_test(NAME test19  COMMAND ${TARGET_NAME} -t -h -e ${OPTS1} ${INPUT11} ${INPUT12} -o test19.pos)
 add_test(NAME test20  COMMAND ${TARGET_NAME} -t -p 4 -a ${OPTS1} ${INPUT11} ${INPUT12} -o test20.pos)
 add_test(NAME test21  COMMAND ${TARGET_NAME} ${INPUT11} ${INPUT12} -o test21.pos)
-# add_test(NAME test22  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}opts1.conf ${INPUT11} ${INPUT12}-o test22.pos)
-# add_test(NAME test23  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}opts2.conf ${INPUT11} ${INPUT12}-o test23.pos)
-# add_test(NAME test24  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}opts3.conf ${INPUT11} ${INPUT12} -y 2 -o test24.pos)
-# add_test(NAME test25  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}opts4.conf ${INPUT11} ${INPUT12} -y 2 -o test25.pos)
+# add_test(NAME test22  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}/opts1.conf ${INPUT11} ${INPUT12} -o test22.pos)
+# add_test(NAME test23  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}/opts2.conf ${INPUT11} ${INPUT12} -o test23.pos)
+# add_test(NAME test24  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}/opts3.conf ${INPUT11} ${INPUT12} -y 2 -o test24.pos)
+# add_test(NAME test25  COMMAND ${TARGET_NAME} -k ${CONF_FOLDER}/opts4.conf ${INPUT11} ${INPUT12} -y 2 -o test25.pos)
